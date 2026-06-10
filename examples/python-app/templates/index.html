@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Web App</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Python Web App</h1>
+            <p>A simple Django application with database support</p>
+        </header>
+
+        <main>
+            <div class="form-section">
+                <h2>Send us a message</h2>
+                
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert success">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+
+            <div class="messages-section">
+                <h2>Recent Messages</h2>
+                {% if messages %}
+                    <div class="message-list">
+                        {% for msg in messages %}
+                            <div class="message-card">
+                                <h3>{{ msg.name }}</h3>
+                                <p class="email">{{ msg.email }}</p>
+                                <p class="message-text">{{ msg.message }}</p>
+                                <small>{{ msg.created_at|date:"F j, Y, g:i a" }}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No messages yet. Be the first to send one!</p>
+                {% endif %}
+            </div>
+        </main>
+
+        <footer>
+            <p>Python Web App &copy; 2024</p>
+        </footer>
+    </div>
+</body>
+</html>
