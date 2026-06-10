@@ -1,0 +1,373 @@
+# Python Web Application - Dockerized
+
+A simple Python web application containerized using Docker. This project demonstrates how to build, run, and deploy a Python application using Docker on a local machine or an AWS EC2 instance.
+
+---
+
+## 📂 Project Structure
+
+```text
+python-app/
+├── app.py
+├── requirements.txt
+├── Dockerfile
+└── README.md
+```
+
+---
+
+## 🚀 Prerequisites
+
+Before running this project, ensure you have:
+
+- Docker installed
+- Git installed
+- Ubuntu/Linux server (Optional: AWS EC2 Instance)
+
+Verify installation:
+
+```bash
+docker --version
+git --version
+```
+
+---
+
+## 📥 Clone Repository
+
+```bash
+git clone https://github.com/<your-github-username>/<repository-name>.git
+cd <repository-name>
+```
+
+Example:
+
+```bash
+git clone https://github.com/johndoe/python-app.git
+cd python-app
+```
+
+---
+
+## 🏗️ Build Docker Image
+
+Build the Docker image from the Dockerfile:
+
+```bash
+docker build -t python-web-app .
+```
+
+Verify image creation:
+
+```bash
+docker images
+```
+
+Expected output:
+
+```bash
+REPOSITORY       TAG       IMAGE ID       CREATED
+python-web-app   latest    xxxxxxxxxxxx   1 minute ago
+```
+
+---
+
+## ▶️ Run Docker Container
+
+Start the application:
+
+```bash
+docker run -d -p 8000:8000 --name python-app python-web-app
+```
+
+Verify the container is running:
+
+```bash
+docker ps
+```
+
+Expected output:
+
+```bash
+CONTAINER ID   IMAGE            STATUS
+xxxxxxxxxxxx   python-web-app   Up 10 seconds
+```
+
+---
+
+## 🌐 Access the Application
+
+### Local Machine
+
+Open:
+
+```text
+http://localhost:8000
+```
+
+### AWS EC2
+
+Open:
+
+```text
+http://<EC2-PUBLIC-IP>:8000
+```
+
+Example:
+
+```text
+http://35.154.xx.xx:8000
+```
+
+> Make sure port **8000** is allowed in the EC2 Security Group.
+
+---
+
+## 📜 View Container Logs
+
+```bash
+docker logs python-app
+```
+
+Real-time logs:
+
+```bash
+docker logs -f python-app
+```
+
+---
+
+## 🔍 Enter Running Container
+
+```bash
+docker exec -it python-app bash
+```
+
+---
+
+## ⏹️ Stop Container
+
+```bash
+docker stop python-app
+```
+
+---
+
+## ▶️ Start Existing Container
+
+```bash
+docker start python-app
+```
+
+---
+
+## 🔄 Restart Container
+
+```bash
+docker restart python-app
+```
+
+---
+
+## 🗑️ Remove Container
+
+```bash
+docker stop python-app
+docker rm python-app
+```
+
+---
+
+## 🗑️ Remove Docker Image
+
+```bash
+docker rmi python-web-app
+```
+
+---
+
+## 🔧 Rebuild After Code Changes
+
+Whenever application code changes:
+
+```bash
+docker stop python-app
+docker rm python-app
+
+docker build -t python-web-app .
+
+docker run -d -p 8000:8000 --name python-app python-web-app
+```
+
+---
+
+## 🚀 Deployment on AWS EC2
+
+### 1. Connect to EC2
+
+```bash
+ssh -i key.pem ubuntu@<EC2-PUBLIC-IP>
+```
+
+### 2. Clone Repository
+
+```bash
+git clone https://github.com/<your-github-username>/<repository-name>.git
+cd <repository-name>
+```
+
+### 3. Build Docker Image
+
+```bash
+docker build -t python-web-app .
+```
+
+### 4. Run Container
+
+```bash
+docker run -d -p 8000:8000 --name python-app python-web-app
+```
+
+### 5. Access Application
+
+```text
+http://<EC2-PUBLIC-IP>:8000
+```
+
+---
+
+## 🔄 Update Application
+
+When new code is pushed to GitHub:
+
+```bash
+git pull
+
+docker stop python-app || true
+docker rm python-app || true
+
+docker build -t python-web-app .
+
+docker run -d -p 8000:8000 --name python-app python-web-app
+```
+
+---
+
+## 🐳 Push Image to Docker Hub
+
+### Login
+
+```bash
+docker login
+```
+
+### Tag Image
+
+```bash
+docker tag python-web-app <dockerhub-username>/python-web-app:latest
+```
+
+### Push Image
+
+```bash
+docker push <dockerhub-username>/python-web-app:latest
+```
+
+Example:
+
+```bash
+docker tag python-web-app harshsaini/python-web-app:latest
+docker push harshsaini/python-web-app:latest
+```
+
+### Pull Image Anywhere
+
+```bash
+docker pull <dockerhub-username>/python-web-app:latest
+```
+
+### Run Pulled Image
+
+```bash
+docker run -d -p 8000:8000 --name python-app <dockerhub-username>/python-web-app:latest
+```
+
+---
+
+## 🛠️ Troubleshooting
+
+### Application Not Accessible
+
+Check container status:
+
+```bash
+docker ps
+```
+
+### View Logs
+
+```bash
+docker logs python-app
+```
+
+### Verify Port Mapping
+
+```bash
+docker ps
+```
+
+Expected:
+
+```bash
+0.0.0.0:8000->8000/tcp
+```
+
+### AWS Security Group
+
+Allow:
+
+| Type | Port | Source |
+|--------|--------|--------|
+| Custom TCP | 8000 | 0.0.0.0/0 |
+
+---
+
+## 📋 Useful Docker Commands
+
+```bash
+docker ps
+docker ps -a
+docker images
+docker logs python-app
+docker exec -it python-app bash
+docker stop python-app
+docker start python-app
+docker restart python-app
+docker rm python-app
+docker rmi python-web-app
+```
+
+---
+
+## 📌 Quick Deployment Commands
+
+```bash
+git pull
+
+docker stop python-app || true
+docker rm python-app || true
+
+docker build -t python-web-app .
+
+docker run -d -p 8000:8000 --name python-app python-web-app
+```
+
+---
+
+## 👨‍💻 Author
+
+Harsh Saini
+
+B.Tech CSE (AI & ML)
+
+Learning DevOps, Docker, Kubernetes, AWS, and Cloud Technologies.
